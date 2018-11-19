@@ -18,19 +18,16 @@ namespace LuhnAlgorithim.Controllers
 
         private int _lengthOfDigits;
         private int _IIN;
-        private FormatType _specificFormatType; 
+        private FormatType _specificFormatType;
 
-        public LuhnController()
-        {
-            _formatTypes = this.GetFormatTypes();
-        }
-
+        public LuhnController() => _formatTypes = this.GetFormatTypes();
 
         [Route("GenerateNumber/{formatType}/{formatTypelength}")]
         [HttpGet]
         public string GenerateNumber(string formatType, int formatTypelength)
         {
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
+            _specificFormatType.ExplodeIINRange();
 
             if(_specificFormatType == null){
                 return $"You must specify a an appropriate formatType";
@@ -40,7 +37,7 @@ namespace LuhnAlgorithim.Controllers
             }
 
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
-            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Length)]; 
+            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
             return GenerateLunhNumber();
         }
@@ -52,6 +49,7 @@ namespace LuhnAlgorithim.Controllers
             Random random = GenerateRandom();
 
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
+            _specificFormatType.ExplodeIINRange();
 
             if(_specificFormatType == null){
                 return $"You must specify a an appropriate formatType";
@@ -61,7 +59,7 @@ namespace LuhnAlgorithim.Controllers
             int formatTypelength = _specificFormatType.LengthOfDigits[random.Next(_specificFormatType.LengthOfDigits.Length)]; 
 
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
-            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Length)]; 
+            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
             return GenerateLunhNumber();
            
@@ -74,12 +72,13 @@ namespace LuhnAlgorithim.Controllers
 
             //  Since no formatType was passed in, randomly choose one from the available choices
             _specificFormatType = _formatTypes.OrderBy(item => random.Next()).First();
+            _specificFormatType.ExplodeIINRange();
 
             //  Since no formatTypelength was passed in, randomly choose one from the available choices
             int formatTypelength = _specificFormatType.LengthOfDigits[random.Next(_specificFormatType.LengthOfDigits.Length)]; 
 
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
-            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Length)]; 
+            _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
             return GenerateLunhNumber();
 
@@ -158,21 +157,21 @@ namespace LuhnAlgorithim.Controllers
             results.Add(new FormatType(){
                 abbr = "ve",
                 Issuer = "Visa Electron",
-                IINRange = new int[]{4026, 417500, 4508, 4844, 4913, 4917},
+                IINRange = new List<int>{4026, 417500, 4508, 4844, 4913, 4917},
                 LengthOfDigits = new int[]{16}
             });
 
             results.Add(new FormatType(){
                 abbr = "v",
                 Issuer = "Visa",
-                IINRange = new int[]{4},
+                IINRange = new List<int>{4},
                 LengthOfDigits = new int[]{13,16,19}
             });
 
             results.Add(new FormatType(){
                 abbr = "mc",
                 Issuer = "MasterCard",
-                IINRange = new int[]{51, 52, 53, 54, 55},
+                IINRange = new List<int>{51, 52, 53, 54, 55},
                 IINMetaRangeStart = 222100,
                 IINMetaRangeEnd = 272099,
                 LengthOfDigits = new int[]{16}
@@ -181,29 +180,29 @@ namespace LuhnAlgorithim.Controllers
             results.Add(new FormatType(){
                 abbr = "m",
                 Issuer = "Maestro",
-                IINRange = new int[]{5018, 5020, 5038, 5893, 6304, 6759, 6761, 6762, 6763},
+                IINRange = new List<int>{5018, 5020, 5038, 5893, 6304, 6759, 6761, 6762, 6763},
                 LengthOfDigits = new int[]{16,19}
             });
 
-            // results.Add(new FormatType(){
-            //     abbr = "jcb",
-            //     Issuer = "JCB",
-            //     IINMetaRangeStart = 3528,
-            //     IINMetaRangeEnd = 3589,
-            //     LengthOfDigits = new int[]{16,19}
-            // });
+            results.Add(new FormatType(){
+                abbr = "jcb",
+                Issuer = "JCB",
+                IINMetaRangeStart = 3528,
+                IINMetaRangeEnd = 3589,
+                LengthOfDigits = new int[]{16,19}
+            });
 
             results.Add(new FormatType(){
                 abbr = "ip",
                 Issuer = "InstaPayment",
-                IINRange = new int[]{637, 638, 639},
+                IINRange = new List<int>{637, 638, 639},
                 LengthOfDigits = new int[]{16}
             });
 
             results.Add(new FormatType(){
                 abbr = "d",
                 Issuer = "Discover",
-                IINRange = new int[]{6011, 644, 645, 646, 647, 648, 649, 65},
+                IINRange = new List<int>{6011, 644, 645, 646, 647, 648, 649, 65},
                 IINMetaRangeStart = 622126,
                 IINMetaRangeEnd = 622925,                
                 LengthOfDigits = new int[]{16,19}
@@ -212,7 +211,7 @@ namespace LuhnAlgorithim.Controllers
             results.Add(new FormatType(){
                 abbr = "dcuc",
                 Issuer = "Diners Club - USA & Canada",
-                IINRange = new int[]{54, 644, 645, 646, 647, 648, 649, 65},
+                IINRange = new List<int>{54, 644, 645, 646, 647, 648, 649, 65},
                 IINMetaRangeStart = 622126,
                 IINMetaRangeEnd = 622925,
                 LengthOfDigits = new int[]{16, 19}
@@ -221,21 +220,21 @@ namespace LuhnAlgorithim.Controllers
             results.Add(new FormatType(){
                 abbr = "dci",
                 Issuer = "Diners Club - International",
-                IINRange = new int[]{36},
+                IINRange = new List<int>{36},
                 LengthOfDigits = new int[]{14}
             });
 
             results.Add(new FormatType(){
                 abbr = "dccb",
                 Issuer = "Diners Club - Carte Blanche",
-                IINRange = new int[]{300, 301, 302, 303, 304, 305},
+                IINRange = new List<int>{300, 301, 302, 303, 304, 305},
                 LengthOfDigits = new int[]{14}
             });
 
             results.Add(new FormatType(){
                 abbr = "ae",
                 Issuer = "American Express",
-                IINRange = new int[]{34, 37},
+                IINRange = new List<int>{34, 37},
                 LengthOfDigits = new int[]{15}
             });
 
