@@ -6,6 +6,7 @@ namespace LuhnAlgorithim.Enums
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Type {
         American_Express, //	34, 37	15
+        China_Union_Pay, // 62 16-19
         Diners_Club_Carte_Blanche, //	300, 301, 302, 303, 304, 305	14
         Diners_Club_International, //	36	14
         Diners_Club_USA_And_Canada, //	54	16
