@@ -20,12 +20,16 @@ namespace LuhnAlgorithim.Controllers
         private int _IIN;
         private FormatType _specificFormatType;
 
-        public LuhnController() => _formatTypes = this.GetFormatTypes();
+        public LuhnController() => _formatTypes = new FormatType().GetFormatTypes();
 
         [Route("GenerateNumber/{formatType}/{formatTypelength}")]
         [HttpGet]
         public string GenerateNumber(string formatType, int formatTypelength)
         {
+            var response = new CardResponseObject(){
+                Success = false
+            };
+
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
             _specificFormatType.ExplodeIINRange();
 
@@ -39,7 +43,14 @@ namespace LuhnAlgorithim.Controllers
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
             _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
-            return GenerateLunhNumber();
+            response.CardNumber = GenerateLunhNumber();
+            response.CardIssuer = _specificFormatType.Issuer;
+            response.CardLength = _lengthOfDigits;
+            response.CardIID = _IIN;
+            response.CardDisplayFormat = _specificFormatType.DisplayFormat.FirstOrDefault(x=>x.FormatLength.Equals(_lengthOfDigits)).DigitSpacingFormat;
+            response.Success = true;
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }
     
         [Route("GenerateNumber/{formatType}")]
@@ -47,6 +58,10 @@ namespace LuhnAlgorithim.Controllers
         public string GenerateNumber(string formatType)
         {
             Random random = GenerateRandom();
+
+            var response = new CardResponseObject(){
+                Success = false
+            };            
 
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
             _specificFormatType.ExplodeIINRange();
@@ -61,7 +76,14 @@ namespace LuhnAlgorithim.Controllers
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
             _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
-            return GenerateLunhNumber();
+            response.CardNumber = GenerateLunhNumber();
+            response.CardIssuer = _specificFormatType.Issuer;
+            response.CardLength = _lengthOfDigits;
+            response.CardIID = _IIN;
+            response.CardDisplayFormat = _specificFormatType.DisplayFormat.FirstOrDefault(x=>x.FormatLength.Equals(_lengthOfDigits)).DigitSpacingFormat;
+            response.Success = true;
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
            
         }
 
@@ -69,6 +91,10 @@ namespace LuhnAlgorithim.Controllers
         public string GenerateNumber()
         {
             Random random = GenerateRandom();
+            
+            var response = new CardResponseObject(){
+                Success = false
+            };
 
             //  Since no formatType was passed in, randomly choose one from the available choices
             _specificFormatType = _formatTypes.OrderBy(item => random.Next()).First();
@@ -80,9 +106,15 @@ namespace LuhnAlgorithim.Controllers
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
             _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
-            return GenerateLunhNumber();
 
+            response.CardNumber = GenerateLunhNumber();
+            response.CardIssuer = _specificFormatType.Issuer;
+            response.CardLength = _lengthOfDigits;
+            response.CardIID = _IIN;
+            response.CardDisplayFormat = _specificFormatType.DisplayFormat.FirstOrDefault(x=>x.FormatLength.Equals(_lengthOfDigits)).DigitSpacingFormat;
+            response.Success = true;
 
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }        
 
         private Random GenerateRandom(){
@@ -109,15 +141,8 @@ namespace LuhnAlgorithim.Controllers
 
             chars = chars.Remove(chars.Length -1, 1) + lastDigitOfProduct;
 
-            var t = new 
-            {
-                CardNumber = chars,
-                CardIssuer = _specificFormatType.Issuer,
-                CardLength = _lengthOfDigits,
-                CardIID = _IIN
-            };
-          
-            return Newtonsoft.Json.JsonConvert.SerializeObject(t);
+            return chars;
+         
         }
 
         private int CalculateLunhSum(string tempCh)
@@ -149,97 +174,6 @@ namespace LuhnAlgorithim.Controllers
             var iDouble = i*2;
             return (iDouble>9) ? iDouble.ToString().Sum(c => c - '0') : iDouble;
         }
-
-        private List<FormatType> GetFormatTypes(){
-
-            var results = new List<FormatType>();
-
-            results.Add(new FormatType(){
-                abbr = "ve",
-                Issuer = "Visa Electron",
-                IINRange = new List<int>{4026, 417500, 4508, 4844, 4913, 4917},
-                LengthOfDigits = new int[]{16}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "v",
-                Issuer = "Visa",
-                IINRange = new List<int>{4},
-                LengthOfDigits = new int[]{13,16,19}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "mc",
-                Issuer = "MasterCard",
-                IINRange = new List<int>{51, 52, 53, 54, 55},
-                IINMetaRangeStart = 222100,
-                IINMetaRangeEnd = 272099,
-                LengthOfDigits = new int[]{16}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "m",
-                Issuer = "Maestro",
-                IINRange = new List<int>{5018, 5020, 5038, 5893, 6304, 6759, 6761, 6762, 6763},
-                LengthOfDigits = new int[]{16,19}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "jcb",
-                Issuer = "JCB",
-                IINMetaRangeStart = 3528,
-                IINMetaRangeEnd = 3589,
-                LengthOfDigits = new int[]{16,19}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "ip",
-                Issuer = "InstaPayment",
-                IINRange = new List<int>{637, 638, 639},
-                LengthOfDigits = new int[]{16}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "d",
-                Issuer = "Discover",
-                IINRange = new List<int>{6011, 644, 645, 646, 647, 648, 649, 65},
-                IINMetaRangeStart = 622126,
-                IINMetaRangeEnd = 622925,                
-                LengthOfDigits = new int[]{16,19}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "dcuc",
-                Issuer = "Diners Club - USA & Canada",
-                IINRange = new List<int>{54, 644, 645, 646, 647, 648, 649, 65},
-                IINMetaRangeStart = 622126,
-                IINMetaRangeEnd = 622925,
-                LengthOfDigits = new int[]{16, 19}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "dci",
-                Issuer = "Diners Club - International",
-                IINRange = new List<int>{36},
-                LengthOfDigits = new int[]{14}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "dccb",
-                Issuer = "Diners Club - Carte Blanche",
-                IINRange = new List<int>{300, 301, 302, 303, 304, 305},
-                LengthOfDigits = new int[]{14}
-            });
-
-            results.Add(new FormatType(){
-                abbr = "ae",
-                Issuer = "American Express",
-                IINRange = new List<int>{34, 37},
-                LengthOfDigits = new int[]{15}
-            });
-
-            return results;
-        }
-        
+ 
     }
 }
