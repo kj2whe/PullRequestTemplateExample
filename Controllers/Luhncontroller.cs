@@ -106,7 +106,6 @@ namespace LuhnAlgorithim.Controllers
             _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
             _IIN = _specificFormatType.IINRange[GenerateRandom().Next(_specificFormatType.IINRange.Count)]; 
 
-
             response.CardNumber = GenerateLunhNumber();
             response.CardIssuer = _specificFormatType.Issuer;
             response.CardLength = _lengthOfDigits;
