@@ -127,7 +127,7 @@ namespace LuhnAlgorithim.Controllers
 
             Random random = GenerateRandom();
 
-            var chars = _IIN.ToString() + new string(Enumerable.Range(0, _lengthOfDigits-IINValueLength+1)
+            var chars = _IIN.ToString() + new string(Enumerable.Range(0, _lengthOfDigits-IINValueLength-1)
                 .Select(x => pool[random.Next(0, pool.Length)])
                 .Append('0').ToArray());
 
