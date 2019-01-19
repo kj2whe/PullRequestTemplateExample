@@ -152,6 +152,7 @@ namespace LuhnAlgorithim.Controllers
             int even = 0; 
             int odd = 0; 
   
+            // Comment
             // Loop to find even, odd sum 
             for(int i = 0; i < tempCh.Length; i++)
             { 
