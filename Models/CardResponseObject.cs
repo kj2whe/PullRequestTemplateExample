@@ -10,12 +10,5 @@ namespace LuhnAlgorithim.Models
         public int CardLength {get; set;}
         public int CardIID {get; set;}
         public string CardDisplayFormat {get; set;}
-        public string TestMessage 
-        {
-            get 
-            {
-                return "I Like Cheese";
-            }
-        }
     }
 };
