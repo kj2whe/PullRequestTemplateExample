@@ -14,7 +14,7 @@ namespace LuhnAlgorithim.Models
         {
             get
             {
-                return "0.0.1";
+                return "0.0.2";
             }
         }
     }
