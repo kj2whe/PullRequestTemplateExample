@@ -35,10 +35,18 @@ namespace LuhnAlgorithim.Models
                 IINRange = new List<int>{4},
                 LengthOfDigits = new int[]{13,16,19},
                 DisplayFormat = new List<FormatTypeSpacing>(){
+                    new FormatTypeSpacing{
+                        FormatLength = 13,
+                        DigitSpacingFormat = " dddd dddd dddd d"
+                    },
                     new FormatTypeSpacing{ 
                         FormatLength = 16,
                         DigitSpacingFormat = " dddd dddd dddd dddd"
-                    }
+                    },
+                    new FormatTypeSpacing{
+                        FormatLength = 19,
+                        DigitSpacingFormat = " dddd dddd dddd dddd ddd"
+                    },
                 }
             });
 
