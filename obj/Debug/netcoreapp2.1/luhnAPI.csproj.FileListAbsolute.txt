@@ -3,6 +3,7 @@ C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.1\luhnAPI.runtimecon
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.1\luhnAPI.runtimeconfig.dev.json
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.1\luhnAPI.dll
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.1\luhnAPI.pdb
+C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.csprojAssemblyReference.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.csproj.CoreCompileInputs.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.RazorAssemblyInfo.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.RazorAssemblyInfo.cs

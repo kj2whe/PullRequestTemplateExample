@@ -6,12 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using LuhnAlgorithim.Models;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
+
 
 namespace LuhnAlgorithim.Controllers
 {
     [Route("api/[controller]")]
     public class LuhnController : Controller
     {
+        private readonly ILogger _logger;
+
         const string pool = "0123456789";
 
         private List<FormatType> _formatTypes;
@@ -20,7 +25,11 @@ namespace LuhnAlgorithim.Controllers
         private int _IIN;
         private FormatType _specificFormatType;
 
-        public LuhnController() => _formatTypes = new FormatType().GetFormatTypes();
+        public LuhnController(ILogger<LuhnController> logger)
+        {
+            _formatTypes = new FormatType().GetFormatTypes();
+            _logger = logger;
+        }
 
         [Route("GenerateNumber/{formatType}/{formatTypelength}")]
         [HttpGet]
@@ -29,6 +38,10 @@ namespace LuhnAlgorithim.Controllers
             var response = new CardResponseObject(){
                 Success = false
             };
+
+            _logger.LogInformation("An example of a Information trace..");
+            _logger.LogWarning("An example of a Warning trace..");
+            _logger.LogTrace("An example of a Trace level message");
 
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
             _specificFormatType.ExplodeIINRange();

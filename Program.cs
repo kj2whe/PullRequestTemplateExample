@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 
 namespace luhnAPI
 {
@@ -14,11 +10,34 @@ namespace luhnAPI
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            //CreateWebHostBuilder(args).Build().Run();
+            var host = BuildWebHost(args);
+            var logger = host.Services.GetRequiredService<ILogger<Program>>();
+            logger.LogInformation("From Program. Running the host now.."); // This will be picked up by AI
+            host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //    WebHost.CreateDefaultBuilder(args)
+        //        .UseApplicationInsights()
+        //        .UseStartup<Startup>();
+
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .UseApplicationInsights()
+            .UseStartup<Startup>()
+            .ConfigureLogging(logging =>
+            {
+                logging.AddApplicationInsights("b3c8d2d3-7013-40ea-b00c-38d1a0b87645");
+
+            // Optional: Apply filters to configure LogLevel Trace or above is sent to
+            // ApplicationInsights for all categories.
+            logging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
+
+            // Additional filtering For category starting in "Microsoft",
+            // only Warning or above will be sent to Application Insights.
+            logging.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Warning);
+            })
+            .Build();
     }
 }
