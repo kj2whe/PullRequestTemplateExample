@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LuhnAlgorithim.Models;
-using System.Text.RegularExpressions;
-using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
-
 
 namespace LuhnAlgorithim.Controllers
 {
@@ -31,17 +26,58 @@ namespace LuhnAlgorithim.Controllers
             _logger = logger;
         }
 
+        [Route("GenerateNumber/{formatType}/{formatTypelength}/{formatStart}")]
+        [HttpGet]
+        public string GenerateNumber(string formatType, int formatTypelength, int formatStart)
+        {
+            _logger.LogInformation("Beginning of GenerateNumber(string, int, int)");
+
+            var response = new CardResponseObject()
+            {
+                Success = false
+            };
+
+            _specificFormatType = _formatTypes.SingleOrDefault(x => x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
+            _specificFormatType.ExplodeIINRange();
+
+            if (_specificFormatType == null)
+            {
+                _logger.LogError($"An appropriate formatType was not specified");
+                return $"You must specify a an appropriate formatType";
+            }
+            else if (Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength) == -1)
+            {
+                _logger.LogError($"An inappropriate length for {_specificFormatType.Issuer} was not specified");
+                return $"You must specify a valid length for a {_specificFormatType.Issuer}";
+            }
+            else if (_specificFormatType.IINRange.IndexOf(formatStart) == -1)
+            {
+                _logger.LogError($"An inappropriate start value for {_specificFormatType.Issuer} was not specified");
+                return $"You must specify a valid start value for a {_specificFormatType.Issuer}";
+            }
+
+            _lengthOfDigits = _specificFormatType.LengthOfDigits[Array.IndexOf(_specificFormatType.LengthOfDigits, formatTypelength)];
+            _IIN = formatStart;
+
+            response.CardNumber = GenerateLunhNumber();
+            response.CardIssuer = _specificFormatType.Issuer;
+            response.CardLength = _lengthOfDigits;
+            response.CardIID = _IIN;
+            response.CardDisplayFormat = _specificFormatType.DisplayFormat.FirstOrDefault(x => x.FormatLength.Equals(_lengthOfDigits)).DigitSpacingFormat;
+            response.Success = true;
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
+        }
+
         [Route("GenerateNumber/{formatType}/{formatTypelength}")]
         [HttpGet]
         public string GenerateNumber(string formatType, int formatTypelength)
         {
+            _logger.LogInformation("Beginning of GenerateNumber(string, int)");
+
             var response = new CardResponseObject(){
                 Success = false
             };
-
-            _logger.LogInformation("An example of a Information trace..");
-            _logger.LogWarning("An example of a Warning trace..");
-            _logger.LogTrace("An example of a Trace level message");
 
             _specificFormatType = _formatTypes.SingleOrDefault(x=>x.abbr.Equals(formatType, StringComparison.CurrentCultureIgnoreCase));
             _specificFormatType.ExplodeIINRange();
@@ -70,6 +106,7 @@ namespace LuhnAlgorithim.Controllers
         [HttpGet]
         public string GenerateNumber(string formatType)
         {
+            _logger.LogInformation("Beginning of GenerateNumber(string)");
             Random random = GenerateRandom();
 
             var response = new CardResponseObject(){
