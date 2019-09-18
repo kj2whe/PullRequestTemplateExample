@@ -11,3 +11,4 @@ C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.AssemblyIn
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.RazorTargetAssemblyInfo.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.dll
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.pdb
+c:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.1\luhnAPI.csprojAssemblyReference.cache

@@ -10,11 +10,13 @@ namespace luhnAPI
     public class Startup
     {
         private readonly ILogger _logger;
+        private readonly string _instrumentationKey;
 
         public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
             _logger = logger;
+            _instrumentationKey = Configuration.GetSection("ApplicationInsights:InstrumentationKey").Value;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,8 +25,9 @@ namespace luhnAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddApplicationInsightsTelemetry("b3c8d2d3-7013-40ea-b00c-38d1a0b87645");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddApplicationInsightsTelemetry(_instrumentationKey);
             _logger.LogInformation("From ConfigureServices. Services.AddMVC invoked");
         }
 
