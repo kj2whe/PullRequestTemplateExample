@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/6c3901a4-c525-447e-b186-6963bc03802c/resourcegroups/LuhnAPI/providers/microsoft.insights/components/LuhnAPI</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/6c3901a4-c525-447e-b186-6963bc03802c/resourcegroups/LuhnAPI/providers/microsoft.insights/components/LuhnAPI</ApplicationInsightsAnnotationResourceId>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <StartupObject>luhnAPI.Program</StartupObject>
   </PropertyGroup>
 
