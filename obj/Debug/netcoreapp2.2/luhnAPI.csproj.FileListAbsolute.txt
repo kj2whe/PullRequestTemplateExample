@@ -1,3 +1,7 @@
+C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\Connected Services\Application Insights\ConnectedService.json
+C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\luhnAPI.deps.json
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\luhnAPI.runtimeconfig.json
 C:\Users\jason\Documents\Apps\luhnAPI\bin\Debug\netcoreapp2.2\luhnAPI.runtimeconfig.dev.json
@@ -11,4 +15,5 @@ C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.AssemblyIn
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.RazorTargetAssemblyInfo.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.dll
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.pdb
+C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.genruntimeconfig.cache
 C:\Users\jason\Documents\Apps\luhnAPI\obj\Debug\netcoreapp2.2\luhnAPI.csprojAssemblyReference.cache

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "luhnAPI", "luhnAPI.csproj", "{CDD6EB1A-69B2-4ED4-8ED5-F3DE5178B37C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "luhnAPI_Testing", "..\luhnAPI_Testing\luhnAPI_Testing.csproj", "{AD502CBB-CAA6-4BF9-8FDB-E4786F8734B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "luhnAPITests1", "..\luhnAPITests1\luhnAPITests1.csproj", "{09889A13-C99C-4DAA-B2FB-8F9E2180FFAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{CDD6EB1A-69B2-4ED4-8ED5-F3DE5178B37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDD6EB1A-69B2-4ED4-8ED5-F3DE5178B37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDD6EB1A-69B2-4ED4-8ED5-F3DE5178B37C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD502CBB-CAA6-4BF9-8FDB-E4786F8734B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD502CBB-CAA6-4BF9-8FDB-E4786F8734B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD502CBB-CAA6-4BF9-8FDB-E4786F8734B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD502CBB-CAA6-4BF9-8FDB-E4786F8734B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09889A13-C99C-4DAA-B2FB-8F9E2180FFAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09889A13-C99C-4DAA-B2FB-8F9E2180FFAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09889A13-C99C-4DAA-B2FB-8F9E2180FFAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09889A13-C99C-4DAA-B2FB-8F9E2180FFAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
