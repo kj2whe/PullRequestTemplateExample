@@ -1,8 +1,8 @@
-# ![lunhAPI](media/Cards-512.png)
+# ![lunhAPI](luhnAPI/luhnAPI/media/Cards-512.png)
 
 # lunhAPI
 
-[![Build status](https://kj2w.visualstudio.com/Luhn%20Algorithim%20API/_apis/build/status/LuhnAPI)](https://kj2w.visualstudio.com/Luhn%20Algorithim%20API/_build/latest?definitionId=4)
+[![Build status](https://kj2w.visualstudio.com/Luhn%20Algorithim%20API/_apis/build/status/LuhnAPI-clone)](https://kj2w.visualstudio.com/Luhn%20Algorithim%20API/_build/latest?definitionId=8)
 
 lunhAPI is a REST API that will return a valid credit card number that was generated via the LUHN algorithim.  
 
